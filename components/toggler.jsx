@@ -8,8 +8,6 @@ const Toggler = () => {
   const darkMode = useDarkMode(false)
   const theme = darkMode.value ? 'dark' : 'light'
 
-  console.log(theme)
-
   return(
     <Toggle
           defaultChecked={darkMode.value}

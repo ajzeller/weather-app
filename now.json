@@ -1,0 +1,22 @@
+{
+  "env": {
+    "BASE_URL": "https://next-todo-app.now.sh/",
+    "DATABASE_NAME": "todoApp"
+  },
+
+  "build": {
+    "env": {
+      "DATABASE": "@database",
+      "BASE_URL": "https://next-todo-app.now.sh/",
+      "AUTH0_DOMAIN": "ajz-playground.auth0.com",
+      "AUTH0_CLIENT_ID": "Dm2X43njNoxailLSJcrhEdFE0DRztECT",
+      "AUTH0_CLIENT_SECRET": "@auth0_client_secret",
+      "AUTH0_SCOPE": "openid profile read:shows offline_access",
+      "REDIRECT_URI": "https://next-todo-app.now.sh/api/callback",
+      "POST_LOGOUT_REDIRECT_URI": "https://next-todo-app.now.sh/",
+      "SESSION_COOKIE_SECRET": "@session_cookie_secret",
+      "DATABASE_NAME": "nextTest",
+      "SESSION_COOKIE_LIFETIME": "28800"
+    }
+  }
+}
