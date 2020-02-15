@@ -15,7 +15,6 @@ module.exports = withSass({
     POST_LOGOUT_REDIRECT_URI: process.env.POST_LOGOUT_REDIRECT_URI || 'http://localhost:3000/',
     SESSION_COOKIE_SECRET: process.env.SESSION_COOKIE_SECRET,
     SESSION_COOKIE_LIFETIME: 7200, // 2 hours
-    DATABASE: process.env.DATABASE,
-    BASE_URL: process.env.BASE_URL
+    DATABASE: process.env.DATABASE
   }
 })

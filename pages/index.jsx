@@ -1,115 +1,59 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
+
 import Layout from '../components/layout';
 import { useFetchUser } from '../lib/user';
-import ListItem from '../components/ListItem'
-import ListInput from '../components/ListInput'
-import Link from 'next/link';
-import styled, { css } from 'styled-components'
 
-const baseUrl = process.env.BASE_URL.replace(/\/+$/, '')
-
-const LinkStyled = styled.a`
-  color: ${props => props.theme.theme.text.primary};
-  text-decoration: none;
-  border-bottom: 3px solid ${props => props.theme.theme.bg.primary};
-  font-weight: ${props => props.theme.theme.fontWeights.link};
-  &:hover {cursor: pointer;}
-`
-
-export default function Index( {data} ) {
+export default function Home() {
   const { user, loading } = useFetchUser();
-  const [todo, setTodo] = useState('')
-  const [todos, setTodos] = useState( [ ] )
-  const [todosLoaded, setTodosLoaded] = useState(false)
-
-  console.log(`loading: ${loading}`)
+  const [inputText, setInputText] = useState('')
 
   const handleChange = (e) => {
-    setTodo(e.target.value)
+    setInputText(e.target.value)
   }
 
-  useEffect(() => {
-    if(user){
-      console.log('useEffect')
-      getTodos()
-    }
-    
-  }, [user] )
-
-  // todos
-
-  const getTodos = async () => {
-    const res = await fetch(baseUrl + '/api/todos')
-    const json = await res.json()
-    console.log(`getTodos: ${json}`)
-    setTodos(json)
-    setTodosLoaded(true)
-  }
-
-  const addTodo = async () => {
-    const res = await fetch(baseUrl + '/api/todos', {
+  // example GET request
+  const addUser = async () => {
+    const res = await fetch('http://localhost:3000/api/mongotest', {
       method: 'post',
       body: JSON.stringify({
-        text: todo
+        inputText
       })
     })
-    const get = await getTodos()
-    setTodo('')
   }
-
-  const deleteTodo = async (id) => {
-    const res = await fetch(baseUrl + '/api/todos', {
-      method: 'delete',
-      body: JSON.stringify({_id: id})
-    })
-    const get = await getTodos()
-  }
-
-  const toggleChecked = async (id) => {
-    console.log('toggleChecked')
-    const todoItem = todos.find( item => item._id == id)
-    const res = await fetch(baseUrl + '/api/todos', {
-      method: 'put',
-      body: JSON.stringify( todoItem )
-    })
-    const get = await getTodos()
-  }
-
-  console.log(todos)
-  // console.log(user)
 
   return (
     <Layout user={user} loading={loading}>
-      { todosLoaded &&
-        todos.map( item => (
-        <ListItem 
-          key={item._id} 
-          isChecked={item.isChecked} 
-          text={item.text} 
-          handleDelete={ () => deleteTodo(item._id) } 
-          toggleChecked={ () => toggleChecked(item._id) }
-        /> ))
+      <h1>Next.js Boilerplate</h1>
+      <p>With Auth0, MongoDB, Styled Components, Dark Mode</p>
 
-        }
-      {todosLoaded && <ListInput 
-        text={todo} 
-        handleChange={handleChange} 
-        handleAdd={addTodo} 
-        handleClear={() => setTodo('')}
-      />}
+      {loading && <p>Loading login info...</p>}
 
-      {/* Only show after fetchUser loads */}
-      {!user && !loading && 
-      <p><LinkStyled href='/api/login'>Login</LinkStyled> to make your own list or try the <Link href="/demo">
-  <LinkStyled>demo</LinkStyled>
-</Link></p>}
+      {!loading && !user && (
+        <>
+          <p>
+            To test the login click in <i>Login</i>
+          </p>
+          <p>
+            Once you have logged in you should be able to click in <i>Profile</i> and <i>Logout</i>
+          </p>
+        </>
+      )}
+
+      <hr />
+
+      {user && (
+        <>
+          <h2>User Info (client rendered)</h2>
+          <p></p>
+          <pre>{JSON.stringify(user, null, 2)}</pre>
+        </>
+      )}
+      <input type="text" 
+      value={inputText} 
+      onChange={handleChange} 
+      placeholder='type new todo item here' 
+      required></input>
+      <button onClick={addUser}>Add user</button>
     </Layout>
   );
 }
-
-// Index.getInitialProps = async () => {
-//   const res = await fetch(baseUrl + '/api/todos')
-//   const json = await res.json() 
-//   console.log(`initialProps: ${JSON.stringify(json)}`)
-//   return { data: json }
-// }

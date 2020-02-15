@@ -30,17 +30,14 @@ const HeaderGroup = styled.div`
   display: flex;
   align-items: center;
 
-  a {
-    font-size: ${props => props.theme.theme.fontSizes[0]};
+  a, img {
     margin-right: 15px;
-    font-weight: 400;
   }
 `
 
 const ProfileImg = styled.img`
   width: 30px;
   border-radius: 100%;
-  display: block;
 `
 
 const Header = () => {
@@ -51,28 +48,24 @@ const Header = () => {
       <Nav>
         <HeaderGroup>
           <Link href="/">
-            <a>Next<strong>Todo</strong></a>
+            <a>Home</a>
           </Link>
-          {/* <Link href="/about">
+          <Link href="/about">
             <a>About</a>
-          </Link> */}
+          </Link>
         </HeaderGroup>
             
         <HeaderGroup>
           {!loading &&
             (user ? (
               <>
+                  <a href="/profile">Profile</a>
+                  <a href="/shows">My TV Shows</a>
                   <a href="/api/logout">Logout</a>
-                  <Link href="/profile">
-                    <a><ProfileImg src={user.picture} alt="profile" /></a>
-                  </Link>
-                  
+                  <ProfileImg src={user.picture} />
               </>
             ) : (
               <>
-                  <Link href="/demo">
-                    <a>Demo</a>
-                  </Link>
                   <a href="/api/login">Login</a>
               </>
             ))}

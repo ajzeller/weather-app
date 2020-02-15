@@ -7,15 +7,10 @@ const client = new MongoClient(process.env.DATABASE, {
 })
 
 async function database(req, res, next) {
-  try{
-    if (!client.isConnected()) await client.connect()
-    req.dbClient = client
-    req.db = client.db(process.env.DATABASE_NAME)
-    return next()
-  } catch(err){
-    alert(err)
-  }
-  
+  if (!client.isConnected()) await client.connect()
+  req.dbClient = client
+  req.db = client.db(process.env.DATABASE_NAME)
+  return next()
 }
 
 const middleware = nextConnect()
