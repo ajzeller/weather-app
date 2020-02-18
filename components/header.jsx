@@ -30,7 +30,7 @@ const HeaderGroup = styled.div`
   display: flex;
   align-items: center;
 
-  a, img {
+  a {
     margin-right: 15px;
   }
 `
@@ -38,6 +38,7 @@ const HeaderGroup = styled.div`
 const ProfileImg = styled.img`
   width: 30px;
   border-radius: 100%;
+  display: block;
 `
 
 const Header = () => {
@@ -59,10 +60,12 @@ const Header = () => {
           {!loading &&
             (user ? (
               <>
-                  <a href="/profile">Profile</a>
                   <a href="/shows">My TV Shows</a>
                   <a href="/api/logout">Logout</a>
-                  <ProfileImg src={user.picture} />
+                  <Link href="/profile" >
+                    <a><ProfileImg src={user.picture} alt="profile-photo"/></a>
+                  </Link>
+                  
               </>
             ) : (
               <>
