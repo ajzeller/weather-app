@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Toggler from './toggler'
 import styled from 'styled-components'
 import LoadingIcon from './loading-icon'
-
+import Logo from '../assets/logo4.svg'
 
 import { useUser } from '../lib/user';
 
@@ -29,9 +29,17 @@ const StyledHeader = styled.header`
 const HeaderGroup = styled.div`
   display: flex;
   align-items: center;
-
+  
   a {
     margin-right: 15px;
+    padding: 0;
+    display: block;
+  }
+
+  svg {
+    max-height: 44px;
+    max-width: 44px;
+    vertical-align:bottom
   }
 `
 
@@ -49,11 +57,11 @@ const Header = () => {
       <Nav>
         <HeaderGroup>
           <Link href="/">
-            <a>Home</a>
+            <a><Logo /></a>
           </Link>
-          <Link href="/about">
+          {/* <Link href="/about">
             <a>About</a>
-          </Link>
+          </Link> */}
         </HeaderGroup>
             
         <HeaderGroup>

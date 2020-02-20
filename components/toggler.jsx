@@ -8,7 +8,7 @@ const Toggler = () => {
   const darkMode = useDarkMode(false)
   const theme = darkMode.value ? 'dark' : 'light'
 
-  console.log(theme)
+  // console.log(theme)
 
   return(
     <Toggle

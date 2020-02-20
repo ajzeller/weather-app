@@ -1,6 +1,6 @@
 const light = {
   bg: {
-    primary: '#eff0f5',
+    primary: '#E4E8EE',
     secondary: '#ffffff',
     inset: '#e2e4e8',
     input: 'rgba(65,67,78,0.12)'

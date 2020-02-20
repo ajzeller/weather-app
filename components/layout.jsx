@@ -3,14 +3,16 @@ import Head from 'next/head';
 import styled from 'styled-components'
 
 import Header from './header';
+import BottomNav from './bottomNav';
 import { UserProvider } from '../lib/user';
+import { WeatherProvider } from '../lib/weather';
 
 const Main = styled.main`
   color: ${props => props.theme.theme.text.primary};
-  background-color: ${props => props.theme.theme.bg.secondary};
+  background-color: ${props => props.theme.theme.bg.primary};
   margin: 0;
-  padding: 10px 10px 0 10px;
-  min-height: calc(100vh - 70px);
+  padding: 10px 10px 50px 10px;
+  min-height: calc(100vh - 74px - 10px - 50px);
 `
 
 const Content = styled.div`
@@ -20,29 +22,24 @@ const Content = styled.div`
 
 const Layout = ({ user, loading = false, children }) => (
   <UserProvider value={{ user, loading }}>
-    <Head>
-      <title>Next.js with Auth0</title>
-    </Head>
+    {/* <WeatherProvider> */}
+      <Head>
+        <title>Weather App</title>
+      </Head>
 
-    <Header />
+      <Header />
 
-    <Main>
-      <Content >{children}</Content>
-    </Main>
+      <BottomNav />
 
-    <style jsx>{`
-      .container {
-        max-width: 42rem;
-        margin: 1.5rem auto;
-      }
-    `}</style>
-    <style jsx global>{`
-      body {
-        margin: 0;
-        color: #333;
-      }
-    `}</style>
+      <Main>
+        <Content >{children}</Content>
+      </Main>
+
+      <script type="text/javascript" src={`https://maps.googleapis.com/maps/api/js?key=${process.env.PLACES_API_KEY}&libraries=places`}></script>
+
+    {/* </WeatherProvider> */}
   </UserProvider>
+
 );
 
 export default Layout;

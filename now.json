@@ -1,0 +1,24 @@
+{
+  "env": {
+    "BASE_URL": "https://getweather.now.sh/",
+    "DATABASE_NAME": "weatherApp"
+  },
+
+  "build": {
+    "env": {
+      "DATABASE": "@database",
+      "BASE_URL": "https://getweather.now.sh/",
+      "AUTH0_DOMAIN": "ajz-playground.auth0.com",
+      "AUTH0_CLIENT_ID": "o7W4rlU09QVI0cIz907Ge76suNCmSLq6",
+      "AUTH0_CLIENT_SECRET": "@auth0_weather_client_secret",
+      "AUTH0_SCOPE": "openid profile read:shows offline_access",
+      "REDIRECT_URI": "https://getweather.now.sh/api/callback",
+      "POST_LOGOUT_REDIRECT_URI": "https://getweather.now.sh/",
+      "SESSION_COOKIE_SECRET": "@session_cookie_secret",
+      "DATABASE_NAME": "weatherApp",
+      "SESSION_COOKIE_LIFETIME": "28800",
+      "API_KEY": "@openweather_api_key",
+      "PLACES_API_KEY": "@places_api_key_weather"
+    }
+  }
+}

@@ -1,59 +1,48 @@
-import React, {useState} from 'react';
-
+import React, {useState, useContext} from 'react';
 import Layout from '../components/layout';
 import { useFetchUser } from '../lib/user';
+import Autocomplete from '../components/autocomplete'
+import ListItem from '../components/listItem'
+import fetch from 'isomorphic-unfetch'
+import { WeatherContext } from '../lib/weather';
 
-export default function Home() {
+const baseUrl = process.env.BASE_URL.replace(/\/+$/, '')
+
+export default function Index() {
   const { user, loading } = useFetchUser();
-  const [inputText, setInputText] = useState('')
+  const [locations, setLocations] = useState([])
 
-  const handleChange = (e) => {
-    setInputText(e.target.value)
-  }
 
   // example GET request
-  const addUser = async () => {
-    const res = await fetch('http://localhost:3000/api/mongotest', {
-      method: 'post',
-      body: JSON.stringify({
-        inputText
-      })
-    })
+  const getWeather = async (latitude, longitude) => {
+    const res = await fetch(`${baseUrl}/api/weather?lat=${latitude}&lon=${longitude}`)
+    const json = await res.json()
+    console.log(json)
+    return(json)
   }
+
+  const handleAddLocation = async (value) => {
+    const weather = await getWeather(value.lat, value.lng)
+    setLocations(prev => ([
+      ...prev, 
+      {...value, updated: new Date(), weatherData: weather, isDefault: false}
+    ]))
+    // console.log(weather)
+  }
+
+  // console.log( useContext(WeatherContext) )
+  // const { test } = weather 
+  // const { handleAddLocation, locations } = weather 
+  // console.log(test)
+
 
   return (
     <Layout user={user} loading={loading}>
-      <h1>Next.js Boilerplate</h1>
-      <p>With Auth0, MongoDB, Styled Components, Dark Mode</p>
 
-      {loading && <p>Loading login info...</p>}
+      {/* {loading && <p>Loading login info...</p>} */}
 
-      {!loading && !user && (
-        <>
-          <p>
-            To test the login click in <i>Login</i>
-          </p>
-          <p>
-            Once you have logged in you should be able to click in <i>Profile</i> and <i>Logout</i>
-          </p>
-        </>
-      )}
-
-      <hr />
-
-      {user && (
-        <>
-          <h2>User Info (client rendered)</h2>
-          <p></p>
-          <pre>{JSON.stringify(user, null, 2)}</pre>
-        </>
-      )}
-      <input type="text" 
-      value={inputText} 
-      onChange={handleChange} 
-      placeholder='type new todo item here' 
-      required></input>
-      <button onClick={addUser}>Add user</button>
+      <Autocomplete addLocation={handleAddLocation} />
+      {locations.map( (item, i) => (<ListItem weatherItem={item} key={i} ></ListItem>))}
     </Layout>
   );
 }

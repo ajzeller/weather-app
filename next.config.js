@@ -16,6 +16,8 @@ module.exports = withSass({
     SESSION_COOKIE_SECRET: process.env.SESSION_COOKIE_SECRET,
     SESSION_COOKIE_LIFETIME: 7200, // 2 hours
     DATABASE: process.env.DATABASE,
-    BASE_URL: process.env.BASE_URL
+    BASE_URL: process.env.BASE_URL,
+    API_KEY: process.env.API_KEY,
+    PLACES_API_KEY: process.env.PLACES_API_KEY
   }
 })
