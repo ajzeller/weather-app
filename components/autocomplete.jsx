@@ -32,6 +32,7 @@ const ListItem = styled.div`
 
 const InputWrapper = styled.div`
   padding: 5px 15px;
+  margin: 0 0 10px 0;
   background-color: ${props => props.theme.theme.bg.secondary};
   display: grid;
   grid-template-columns: 1fr auto;

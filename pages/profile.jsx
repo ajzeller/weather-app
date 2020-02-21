@@ -9,8 +9,9 @@ import moment from 'moment'
 
 const Panel = styled.div`
   padding: 15px;
-  background-color: ${props => props.theme.theme.bg.primary};
+  background-color: ${props => props.theme.theme.bg.secondary};
   border-radius: 5px;
+  box-shadow: 0 1px 7px 0px rgba(0,0,0,0.1);
 `
 
 const ProfileImg = styled.img`

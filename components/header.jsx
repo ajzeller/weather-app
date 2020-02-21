@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Link from 'next/link';
 import Toggler from './toggler'
+import UnitsToggler from './unitsToggler'
 import styled from 'styled-components'
 import LoadingIcon from './loading-icon'
 import Logo from '../assets/logo4.svg'
 
 import { useUser } from '../lib/user';
+import { WeatherContext } from '../lib/weather';
 
 const Nav = styled.nav`
   max-width: ${props => props.theme.theme.contentWidths[0]};
@@ -68,7 +70,6 @@ const Header = () => {
           {!loading &&
             (user ? (
               <>
-                  <a href="/shows">My TV Shows</a>
                   <a href="/api/logout">Logout</a>
                   <Link href="/profile" >
                     <a><ProfileImg src={user.picture} alt="profile-photo"/></a>
@@ -80,7 +81,8 @@ const Header = () => {
                   <a href="/api/login">Login</a>
               </>
             ))}
-          <Toggler />
+          {/* <Toggler /> */}
+          <UnitsToggler />
         </HeaderGroup>
       </Nav>
 

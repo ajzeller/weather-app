@@ -10,18 +10,22 @@ const handler = nextConnect()
 handler.use(middleware)
 
 handler.get( async (req, res) => {
-  
-  // GET lat, lon id from query
+  try{
+    // GET lat, lon id from query
 
-  const lat = req.query.lat
-  const lon = req.query.lon
+    const lat = req.query.lat
+    const lon = req.query.lon
 
-  const weather = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.API_KEY}`, {
-    method: 'GET'
-  })
-  const json = await weather.json()
+    const weather = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.API_KEY}`, {
+      method: 'GET'
+    })
+    const json = await weather.json()
 
-  return res.json(json)
+    return res.json(json)
+
+  } catch(err){
+    res.json(`Error: ${err}`)
+  }
 })
 
 export default (req, res) => handler.apply(req, res)

@@ -11,8 +11,8 @@ const Main = styled.main`
   color: ${props => props.theme.theme.text.primary};
   background-color: ${props => props.theme.theme.bg.primary};
   margin: 0;
-  padding: 10px 10px 50px 10px;
-  min-height: calc(100vh - 74px - 10px - 50px);
+  padding: 0px 10px 50px 10px;
+  min-height: calc(100vh - 74px - 0px - 50px);
 `
 
 const Content = styled.div`
@@ -22,7 +22,7 @@ const Content = styled.div`
 
 const Layout = ({ user, loading = false, children }) => (
   <UserProvider value={{ user, loading }}>
-    {/* <WeatherProvider> */}
+    {/* <WeatherProvider > */}
       <Head>
         <title>Weather App</title>
       </Head>

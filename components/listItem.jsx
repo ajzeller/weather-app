@@ -1,17 +1,20 @@
+import {useContext} from 'react'
 import styled from 'styled-components'
 import {weatherIcons} from '../assets/weatherIcons'
 import { IoIosCheckmarkCircleOutline, 
   IoIosCheckmarkCircle, 
   IoMdTrash,
-  IoIosArrowDropright} from "react-icons/io";
+  IoIosArrowDropright,
+IoIosAddCircleOutline} from "react-icons/io";
 import moment from 'moment'
+import { WeatherContext } from '../lib/weather';
 
 const Card = styled.div`
   padding: 10px 10px;
   background-color: ${props => props.theme.theme.bg.secondary};
   border-radius: 5px;
   box-shadow: 0 1px 7px 0px rgba(0,0,0,0.1);
-  margin: 10px 0;
+  margin: 0 0 10px 0;
   display: grid;
 
   svg {
@@ -80,10 +83,6 @@ const CardText600 = styled.span`
   color: ${props => props.theme.theme.text.tertiary};
 `
 
-const CardBody = styled.div`
-
-`
-
 const CardFooter = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -100,24 +99,50 @@ const CardFooter = styled.div`
   .right-item {
     justify-self: right;
   }
+
+  svg{
+    display: block;
+
+    &:hover{
+      cursor: pointer;
+    }
+  }
+
 `
 
 
 const ListItem = ( {weatherItem} ) => {
   const weatherId = weatherItem.weatherData.weather[0].id
   const idLeadingDigit = weatherId.toString()[0]
-  console.log(weatherId)
+  // console.log(weatherId)
+
+  const weather = useContext(WeatherContext)
+  const { 
+    handleAddLocation, 
+    handleRemoveLocation,
+    setIsDefault,
+    isMetric 
+  } = weather 
 
   const getIcon = () => {
     if( idLeadingDigit == 8 ) {
-      console.log(weatherId)
+      // console.log(weatherId)
       const icon = weatherIcons.find(item => item.id == weatherId)
-      console.log(icon)
+      // console.log(icon)
       return(icon.iconDay)
     } else {
       const icon = weatherIcons.find(item => item.id.toString()[0] == idLeadingDigit)
-      console.log(icon)
+      // console.log(icon)
       return(icon.iconDay)
+    }
+  }
+
+  const convertUnits = (value) => {
+    if(isMetric){
+      return Math.round(value - 273.15)
+    } else{
+      const f = (value - 273.15)*(9/5) + 32
+      return Math.round(f)
     }
   }
 
@@ -126,31 +151,35 @@ const ListItem = ( {weatherItem} ) => {
     return Math.round(f)
   }
 
-  getIcon()
-
-  // const updatedAt = 'test'
-  const updatedAt = moment(weatherItem.updated, 'ddd MMM DD YYYY HH:mm:ss').format('ddd, MMM DD, h:m a')
+  const updatedAt = moment(weatherItem.updated, 'ddd MMM DD YYYY HH:mm:ss').format('ddd, MMM DD, h:mm a')
   //Wed Feb 19 2020 15:23:46 GMT-0800 (Pacific Standard Time)
 
   return(
     <Card>
       <CardGridUpper>
         <span>
-        {weatherItem.isDefault ? <IoIosCheckmarkCircle /> : <IoIosCheckmarkCircleOutline /> }
+        {weatherItem.isDefault ? <IoIosCheckmarkCircle /> : <IoIosCheckmarkCircleOutline onClick={() => setIsDefault(weatherItem.weatherData.id)} /> }
         </span>
         <CardUpperIcon>
           { getIcon() }
         </CardUpperIcon>
         <CardUpperText>
-          <CardText100>{KtoF(weatherItem.weatherData.main.temp)}&deg;</CardText100>
-          <CardText500>Feels like {KtoF(weatherItem.weatherData.main.feels_like)}&deg;</CardText500>
+          <CardText100>{convertUnits(weatherItem.weatherData.main.temp)}&deg;</CardText100>
+          <CardText500>Feels like {convertUnits(weatherItem.weatherData.main.feels_like)}&deg;</CardText500>
           <CardText300>{weatherItem.name}</CardText300>
           <CardText400>{weatherItem.weatherData.weather[0].main}</CardText400>
         </CardUpperText>
       </CardGridUpper>
 
       <CardFooter>
-        <IoMdTrash className='left-item' />
+        { weatherItem.isChecked ? 
+          <IoMdTrash 
+            className='left-item' 
+            onClick={() => handleRemoveLocation(weatherItem.weatherData.id)} /> : 
+          <IoIosAddCircleOutline 
+            className='left-item' 
+            onClick={() => handleAddLocation(weatherItem.weatherData.id)} />
+        }
         <CardText600 className='center-item'>
           {updatedAt}
         </CardText600>

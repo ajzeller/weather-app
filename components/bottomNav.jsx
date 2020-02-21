@@ -1,5 +1,9 @@
+import React, {useContext} from 'react';
 import styled from 'styled-components'
 import { IoIosHome, IoIosRefresh, IoIosSearch } from "react-icons/io";
+import { TiHome } from "react-icons/ti";
+import { WeatherContext } from '../lib/weather';
+
 import Link from 'next/link';
 
 const NavContainer= styled.nav`
@@ -39,18 +43,21 @@ const NavItem = styled.div`
 `
 
 const BottomNav = () => {
+  const weather = useContext(WeatherContext)
+  const { updateWeather } = weather 
 
   return(
     <NavContainer>
         <NavItem>
           <Link href='/'>
             <a>
-              <IoIosHome />
+              {/* <IoIosHome /> */}
+              <TiHome />
             </a>
           </Link>
         </NavItem>
 
-        <NavItem onClick={() => console.log('clicked')}>
+        <NavItem onClick={updateWeather}>
           <IoIosRefresh />
         </NavItem>
 
