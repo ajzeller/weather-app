@@ -35,7 +35,7 @@ handler.post( async (req, res) => {
     return res.json('success')
 
   } catch(err) {
-    res.json(`Error: ${err}`)
+    return res.json(`Error: ${err}`)
   }
   
 })
@@ -49,7 +49,7 @@ handler.get( async (req, res) => {
     return res.json(doc)
 
   } catch(err){
-    res.json(`Error: ${err}`)
+    return res.json(`Error: ${err}`)
   }
 })
 
@@ -69,7 +69,7 @@ handler.delete( async (req, res) => {
     // console.log(doc)
     return res.json('success')
   } catch(err) {
-    res.json(`Error: ${err}`)
+    return res.json(`Error: ${err}`)
   }
 })
 
@@ -83,19 +83,22 @@ handler.put( async (req, res) => {
     let idToUpdate = data.id
     console.log(data)
   
-    let clearAllIsDefault = await req.db.collection('todos').updateOne(
+    let clearAllIsDefault = await req.db.collection('users').updateOne(
       {sub: user.sub}, 
       {$set: {"weather.$[].isDefault": false } })
   
-    let setOneIsDefault = await req.db.collection('todos').updateOne(
+    let setOneIsDefault = await req.db.collection('users').updateOne(
       {sub: user.sub}, 
-      {$set: {"weather.$[element].isDefault": true } },
+      {$set: {"weather.$[elem].isDefault": true } },
       {arrayFilters: [ { "elem.geoId": { $eq: idToUpdate } }  ] } )
+      
+      // console.log(clearAllIsDefault)
+      // console.log(setOneIsDefault)
 
     return res.json('success')
 
   } catch(err){
-    res.json(`Error: ${err}`)
+    return res.json(`Error: ${err}`)
   }
 })
 

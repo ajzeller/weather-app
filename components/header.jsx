@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Link from 'next/link';
 import Toggler from './toggler'
 import UnitsToggler from './unitsToggler'
@@ -43,6 +43,11 @@ const HeaderGroup = styled.div`
     max-width: 44px;
     vertical-align:bottom
   }
+
+  span{
+    margin-right: 15px;
+    display: flex;
+  }
 `
 
 const ProfileImg = styled.img`
@@ -53,6 +58,8 @@ const ProfileImg = styled.img`
 
 const Header = () => {
   const { user, loading } = useUser();
+  const { isLoading } = useContext(WeatherContext)
+  // console.log(isLoading)
 
   return (
     <StyledHeader>
@@ -67,6 +74,7 @@ const Header = () => {
         </HeaderGroup>
             
         <HeaderGroup>
+          <LoadingIcon isLoading={isLoading} className='nav-item' />
           {!loading &&
             (user ? (
               <>

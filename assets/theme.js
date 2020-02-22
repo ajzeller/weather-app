@@ -1,6 +1,7 @@
 const light = {
   bg: {
-    primary: '#E4E8EE',
+    // primary: '#E4E8EE',
+    primary: '#F4FBFF',
     secondary: '#ffffff',
     inset: '#e2e4e8',
     input: 'rgba(65,67,78,0.12)'
@@ -57,7 +58,7 @@ const defaultTheme = {
     code: 1.6,
   },
   contentWidths: [
-    '1000px'
+    '500px'
   ]
   // ...
 };

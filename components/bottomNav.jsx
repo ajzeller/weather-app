@@ -7,6 +7,7 @@ import { WeatherContext } from '../lib/weather';
 import Link from 'next/link';
 
 const NavContainer= styled.nav`
+  z-index: 1;
   bottom: 0;
   position: fixed;
   width: 100vw;
