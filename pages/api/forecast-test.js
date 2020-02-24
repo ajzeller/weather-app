@@ -41,11 +41,6 @@ handler.get( async (req, res) => {
       forecast: result[1]
     }
 
-    // const weather = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.API_KEY}`, {
-    //   method: 'GET'
-    // })
-    // const json = await weather.json()
-
     return res.json(json)
 
   } catch(err){

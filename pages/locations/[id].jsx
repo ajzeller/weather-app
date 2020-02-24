@@ -5,7 +5,6 @@ import Link from 'next/link';
 import moment from 'moment'
 import Layout from '../../components/layout';
 import { useFetchUser } from '../../lib/user';
-import ListItem from '../../components/listItem'
 import { WeatherContext } from '../../lib/weather';
 import {weatherIcons} from '../../assets/weatherIcons'
 import { IoIosCheckmarkCircleOutline, 
@@ -15,6 +14,8 @@ import { IoIosCheckmarkCircleOutline,
   IoIosAddCircleOutline,
   IoIosArrowDropdown
 } from "react-icons/io";
+import Forecast from '../../components/forecast'
+import { WiWindDeg } from "react-icons/wi";
 
 const Card = styled.div`
   padding: 10px 10px;
@@ -23,6 +24,8 @@ const Card = styled.div`
   box-shadow: 0 1px 15px 2px rgba(0,0,0,0.1);
   margin: 0 0 15px 0;
   display: grid;
+  box-sizing: border-box;
+  width: 100%;
 
   svg {
     /* width: 30px; */
@@ -34,6 +37,8 @@ const CardGridUpper = styled.div`
   display: grid;
   grid-template-columns: auto 1fr 2fr;
   grid-gap: 5px;
+  box-sizing: border-box;
+  width: 100%;
 `
 
 const CardUpperText = styled.div`
@@ -121,11 +126,14 @@ const CardGridFooter = styled.div`
 `
 
 const CardGridLower = styled.div`
-  margin: 20px 10px 30px 10px;
+  margin: 20px 0px 30px 0px;
+  padding: 0 10px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 20px; 
   grid-row-gap: 10px; 
+  box-sizing: border-box;
+  width: 100%;
 `
 
 const DetailItemGrid = styled.div`
@@ -148,7 +156,7 @@ const WindDirection = styled.span`
     color: ${props => props.theme.theme.text.tertiary};
     vertical-align: middle;
     transform: ${props => { 
-      return(`rotate(${props.angle}deg)`)
+      return(`rotate(${props.angle+180}deg)`)
     }};
   }
 `
@@ -162,7 +170,8 @@ const convertUnits = (value, isMetric) => {
   }
 }
 
-const getOverviewIcon = (idLeadingDigit, weatherId) => {
+const getOverviewIcon = (weatherId) => {
+  const idLeadingDigit = weatherId.toString()[0]
   if( idLeadingDigit == 8 ) {
     // console.log(weatherId)
     const icon = weatherIcons.find(item => item.id == weatherId)
@@ -225,7 +234,7 @@ const CardUpper = ({ weatherItem, setIsDefault, isMetric }) => {
       {weatherItem.isDefault ? <IoIosCheckmarkCircle /> : <IoIosCheckmarkCircleOutline onClick={() => setIsDefault(weatherItem.weatherData.id)} /> }
       </span>
       <CardUpperIcon>
-        { getOverviewIcon(weatherId.toString()[0], weatherId) }
+        { getOverviewIcon(weatherId) }
       </CardUpperIcon>
       <CardUpperText>
         <CardText100>{convertUnits(weatherItem.weatherData.main.temp, isMetric)}&deg;</CardText100>
@@ -237,19 +246,25 @@ const CardUpper = ({ weatherItem, setIsDefault, isMetric }) => {
   )
 }
 
+const windDirectionIcon = (angle) => (
+  <WindDirection angle={angle}>
+    <WiWindDeg />
+  </WindDirection>
+)
+
 const CardDetails = ({ weatherItem, isMetric }) => {
   const highTemp = convertUnits(weatherItem.weatherData.main.temp_max, isMetric)
   const lowTemp = convertUnits(weatherItem.weatherData.main.temp_min, isMetric)
 
-  const WindDirectionIcon = 
-  <WindDirection angle={weatherItem.weatherData.wind.deg}>
-    <IoIosArrowDropdown />
-  </WindDirection>
+  // const WindDirectionIcon = 
+  // <WindDirection angle={weatherItem.weatherData.wind.deg}>
+  //   <IoIosArrowDropdown />
+  // </WindDirection>
 
   return(
     <CardGridLower>
       <DetailGroup label={'High/Low'} value={`${highTemp}°/${lowTemp}°`} />
-      <DetailGroup label={'Wind'} value={`${ (weatherItem.weatherData.wind.speed*2.23694).toFixed(1) }mph`} icon={WindDirectionIcon}/>
+      <DetailGroup label={'Wind'} value={`${ (weatherItem.weatherData.wind.speed*2.23694).toFixed(1) }mph`} icon={windDirectionIcon(weatherItem.weatherData.wind.deg)}/>
       <DetailGroup label={'Humidity'} value={`${weatherItem.weatherData.main.humidity}%`} />
       {  getPrecipitation(weatherItem) }
     </CardGridLower>
@@ -316,12 +331,17 @@ export default function Location() {
 
   shareUser()
 
+  const test = moment(1582362000, 'X').format('ddd, MMM DD, h:mma')
+
+  console.log(test)
+
   return (
     <Layout user={user} loading={loading}>
       {weatherItem && (
         <Card>
           <CardUpper weatherItem={weatherItem} setIsDefault={setIsDefault} isMetric={isMetric} />
           <CardDetails weatherItem={weatherItem} isMetric={isMetric} />
+          <Forecast weatherItem={weatherItem} isMetric={isMetric} />
           <CardFooter 
             weatherItem={weatherItem} 
             handleAddLocation={handleAddLocation} 
@@ -337,5 +357,10 @@ export {
   Card,
   CardUpper,
   CardDetails,
-  CardFooter
+  CardFooter,
+  getOverviewIcon,
+  windDirectionIcon,
+  convertUnits,
+  CardText300,
+  CardText400
 }
