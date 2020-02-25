@@ -8,6 +8,8 @@ export default function Index() {
   const { user, loading } = useFetchUser();
   const { handleAddLocation, locations, getUser } = useContext(WeatherContext)
   console.log(locations)
+  const defaultLocation = locations.filter(item => item.isDefault)
+  console.log(defaultLocation)
 
   const shareUser = () => {
     getUser(user)
@@ -17,8 +19,8 @@ export default function Index() {
 
   return (
     <Layout user={user} loading={loading}>
-
-      {locations.map( (item, i) => (<WeatherCard weatherItem={item} key={i} ></WeatherCard>))}
+      {defaultLocation.length > 0 && <WeatherCard weatherItem={defaultLocation[0]} />}
+      {locations.filter(item => !item.isDefault).map( (item, i) => (<WeatherCard weatherItem={item} key={i} ></WeatherCard>))}
     </Layout>
   );
 }

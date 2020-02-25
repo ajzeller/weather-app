@@ -35,7 +35,7 @@ const Card = styled.div`
 
 const CardGridUpper = styled.div`
   display: grid;
-  grid-template-columns: auto 1fr 2fr;
+  grid-template-columns: auto 1fr 1.5fr;
   grid-gap: 5px;
   box-sizing: border-box;
   width: 100%;
@@ -126,7 +126,7 @@ const CardGridFooter = styled.div`
 `
 
 const CardGridLower = styled.div`
-  margin: 20px 0px 30px 0px;
+  margin: 20px 0px 0px 0px;
   padding: 0 10px;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -147,6 +147,16 @@ const DetailItemGrid = styled.div`
   .right-item {
     justify-self: right;
   }
+`
+
+const Horizontal_Line = styled.div`
+  height: 1px;
+  border-bottom: 1px solid #EBEBEB;
+  margin: 15px 10px;
+`
+
+const Horizontal_Space_30 = styled.div`
+  height: 30px;
 `
 
 const WindDirection = styled.span`
@@ -341,6 +351,7 @@ export default function Location() {
         <Card>
           <CardUpper weatherItem={weatherItem} setIsDefault={setIsDefault} isMetric={isMetric} />
           <CardDetails weatherItem={weatherItem} isMetric={isMetric} />
+          <Horizontal_Line />
           <Forecast weatherItem={weatherItem} isMetric={isMetric} />
           <CardFooter 
             weatherItem={weatherItem} 
@@ -362,5 +373,7 @@ export {
   windDirectionIcon,
   convertUnits,
   CardText300,
-  CardText400
+  CardText400,
+  Horizontal_Line,
+  Horizontal_Space_30
 }

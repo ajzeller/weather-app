@@ -4,7 +4,8 @@ import {
   Card,
   CardUpper,
   CardDetails,
-  CardFooter
+  CardFooter,
+  Horizontal_Space_30
 } from '../pages/locations/[id]'
 
 const WeatherCard = ( {weatherItem} ) => {
@@ -20,6 +21,7 @@ const WeatherCard = ( {weatherItem} ) => {
     <Card>
       <CardUpper weatherItem={weatherItem} setIsDefault={setIsDefault} isMetric={isMetric} />
       <CardDetails weatherItem={weatherItem} isMetric={isMetric} />
+      <Horizontal_Space_30 />
       <CardFooter 
         weatherItem={weatherItem} 
         handleAddLocation={handleAddLocation} 
